@@ -11,6 +11,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <test.profile>local</test.profile>
         <junit.version>5.12.2</junit.version>
         <junit.platform.version>1.12.2</junit.platform.version>
         <selenide.version>7.9.3</selenide.version>
@@ -58,6 +59,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                        <test.profile>${test.profile}</test.profile>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -68,4 +70,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <test.profile>local</test.profile>
+            </properties>
+        </profile>
+        <profile>
+            <id>qa</id>
+            <properties>
+                <test.profile>qa</test.profile>
+            </properties>
+        </profile>
+    </profiles>
 </project>

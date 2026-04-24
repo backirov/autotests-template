@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public final class TestConfig {
 
-    private static final String CONFIG_FILE = "test.properties";
+    private static final String PROFILE_PROPERTY = "test.profile";
     private static final Properties PROPERTIES = loadProperties();
 
     private TestConfig() {
@@ -33,14 +33,32 @@ public final class TestConfig {
 
     private static Properties loadProperties() {
         Properties properties = new Properties();
-        try (InputStream inputStream = TestConfig.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
+        String configFile = resolveConfigFileName();
+
+        System.out.println("Config file: " + configFile);
+
+        try (InputStream inputStream = TestConfig.class.getClassLoader().getResourceAsStream(configFile)) {
             if (inputStream == null) {
-                throw new IllegalStateException("Configuration file not found: " + CONFIG_FILE);
+                throw new IllegalStateException("Configuration file not found: " + configFile);
             }
             properties.load(inputStream);
             return properties;
         } catch (IOException e) {
-            throw new IllegalStateException("Failed to read configuration file: " + CONFIG_FILE, e);
+            throw new IllegalStateException("Failed to read configuration file: " + configFile, e);
         }
+    }
+
+    private static String resolveConfigFileName() {
+        String profile = resolveProfile();
+        return profile + ".properties";
+    }
+
+    private static String resolveProfile() {
+        String profile = System.getProperty(PROFILE_PROPERTY);
+        if (profile != null && !profile.isBlank()) {
+            return profile;
+        }
+
+        return null;
     }
 }

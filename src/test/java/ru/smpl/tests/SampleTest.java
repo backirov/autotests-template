@@ -1,10 +1,12 @@
 package ru.smpl.tests;
 
-import org.junit.jupiter.api.Disabled;
+
 import org.junit.jupiter.api.Test;
 import ru.smpl.pages.SamplePage;
 
-@Disabled("Template test class for future UI tests")
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+
 class SampleTest extends BaseUiTest {
 
     private final SamplePage samplePage = new SamplePage();
@@ -12,5 +14,6 @@ class SampleTest extends BaseUiTest {
     @Test
     void openMainPage() {
         samplePage.openPage();
+        $("").shouldBe(visible);
     }
 }
